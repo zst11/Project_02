@@ -1,10 +1,13 @@
 package com.briup.cms.config;
 
+import com.briup.cms.web.interceptor.JwtInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 //使用@Configuration注解和代码，替代xml文件进行配置
@@ -31,5 +34,24 @@ public class WebConfig implements WebMvcConfigurer {
         // 跨域路径配置
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
+    }
+
+    /**
+     * (新增代码)添加jwt拦截器,并指定拦截路径
+     */
+    @Override
+    public void addInterceptors(InterceptorRegistry registry)
+    {
+        registry.addInterceptor(jwtInterceptor()).addPathPatterns("/auth/**")
+//不需要被校验url: 查询所有一级栏目及其二级栏目的接口(供前台使用)
+                .excludePathPatterns("/auth/category/queryAllParent",
+                        "/auth/comment/queryByArticleId/{id}");
+    }
+    /**
+     * (新增代码)创建jwt拦截器对象并加入spring容器
+     */
+    @Bean
+    public HandlerInterceptor jwtInterceptor() {
+        return new JwtInterceptor();
     }
 }

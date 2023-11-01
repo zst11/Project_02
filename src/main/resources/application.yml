@@ -5,9 +5,16 @@ spring:
   datasource:
     #mysql8
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/230308-cms?characterEncoding=utf8&useUnicode=true&useSSL=false&serverTimezone=GMT%2B8
+    url: jdbc:mysql://127.0.0.1:3306/230308-cms?characterEncoding=utf8&useUnicode=true&useSSL=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
     username: root
     password: 729157zst
+  #新增内容：上传文件大小配置
+  servlet:
+    multipart:
+  # 单个文件上传的最大大小 默认为 1MB
+      max-file-size: 10MB
+  # 单次请求文件上传的最大大小 默认值为 10MB
+      max-request-size: 100MB
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
@@ -32,3 +39,16 @@ mybatis:
     map-underscore-to-camel-case: true
   # mapper.xml 文件夹所在位置
   mapper-locations: classpath:mapper/**/*.xml
+
+
+upload:
+  # 七牛云OSS相关配置
+  oss:
+    # 配置AK
+    accessKey: "4P7-_JgQ3y1v3NVosHsLWZYWNnnx4QOXVnMuXtsY"
+    # 配置SK
+    secretKey: "XIdDRGtsm-0ZkBskGVww-EhAvrCgG9GPq_1656hD"
+    # 配置桶
+    bucket: "horry"
+    # 配置基础域名
+    baseUrl: "http://s03gbclr1.hd-bkt.clouddn.com/"
