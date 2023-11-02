@@ -38,6 +38,10 @@ public class ArticleServiceImpl implements ArticleService {
     @Autowired
     CategoryDao categoryDao;
 
+//    @Autowired
+//    RedisUtil redisUtil;
+
+//    private final String REDIS_KEY = "Article_Read_Num";
 
     private static String getToken(){
         // 返回token
@@ -159,6 +163,7 @@ public class ArticleServiceImpl implements ArticleService {
 
 
         // 优化，加入redis
+//        articleExtend.setReadNum(redisUtil.increment(REDIS_KEY,article.getId().toString()));
         return articleExtend;
     }
 
@@ -205,8 +210,14 @@ public class ArticleServiceImpl implements ArticleService {
         Page<ArticleExtend> pageInfo = new Page<>();
         pageInfo.setRecords(list);
         pageInfo.setTotal(page.getTotal());
+        // 设置当前页码和page得页码一样
         pageInfo.setCurrent(page.getCurrent());
         return pageInfo;
+    }
+
+    @Override
+    public List<Article> getAll() {
+        return articleDao.selectList(null);
     }
 
 

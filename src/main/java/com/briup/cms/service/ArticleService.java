@@ -17,4 +17,6 @@ public interface ArticleService {
     ArticleExtend queryByIdWithComment(Long id);
 
     IPage<ArticleExtend> query(ArticleParam articleParam);
+
+    List<Article> getAll();
 }

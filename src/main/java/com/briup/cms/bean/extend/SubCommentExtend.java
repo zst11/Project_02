@@ -6,5 +6,5 @@ import lombok.Data;
 
 @Data
 public class SubCommentExtend extends Subcomment {
-    User user;
+    User author;
 }

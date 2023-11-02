@@ -1,11 +1,14 @@
 package com.briup.cms.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.briup.cms.bean.Article;
 import com.briup.cms.bean.Comment;
 import com.briup.cms.bean.Subcomment;
 import com.briup.cms.bean.User;
 import com.briup.cms.bean.dto.CommentDeleteParam;
+import com.briup.cms.bean.dto.CommentQueryParam;
+import com.briup.cms.bean.extend.CommentExtend;
 import com.briup.cms.bean.extend.SubCommentExtend;
 import com.briup.cms.dao.ArticleDao;
 import com.briup.cms.dao.CommentDao;
@@ -137,9 +140,62 @@ public class CommentServiceImpl implements CommentService {
             Long userId = subcomment.getUserId();
             User user = userDao.selectById(userId);
             BeanUtils.copyProperties(subcomment,subCommentExtend);
-            subCommentExtend.setUser(user);
+            subCommentExtend.setAuthor(user);
             subCommentExtends.add(subCommentExtend);
         }
         return subCommentExtends;
+    }
+
+    @Override
+    public Page<CommentExtend> queryByArticleId(Integer pageNum, Integer pageSize, Long id) {
+        Comment comment = commentDao.selectByArticleIdComment(id);
+        System.out.println(comment);
+        if (comment == null){
+            throw new ServiceException(ResultCode.COMMENT_NOT_EXIST);
+        }
+        Page<Comment> commentPage = new Page<>(pageNum,pageSize);
+        commentDao.selectPage(commentPage,null);
+        List<Comment> records = commentPage.getRecords();
+        ArrayList<CommentExtend> commentExtends = new ArrayList<>();
+        for (Comment record : records) {
+            Long userId = record.getUserId();
+            User author = userDao.selectById(userId);
+            if (author == null){
+                throw new ServiceException(ResultCode.USER_NOT_EXIST);
+            }
+            CommentExtend commentExtend = new CommentExtend();
+            BeanUtils.copyProperties(record,commentExtend);
+            commentExtend.setAuthor(author);
+            LambdaQueryWrapper<Subcomment> lqw = new LambdaQueryWrapper<>();
+            lqw.eq(Subcomment::getParentId,record.getId());
+            List<Subcomment> list = subcommentDao.selectList(lqw);
+            ArrayList<SubCommentExtend> subCommentExtends = new ArrayList<>();
+            for (Subcomment subcomment : list) {
+                Long userId1 = subcomment.getUserId();
+                User user = userDao.selectById(userId1);
+                SubCommentExtend subCommentExtend = new SubCommentExtend();
+                BeanUtils.copyProperties(subcomment,subCommentExtend);
+                subCommentExtend.setAuthor(user);
+                subCommentExtends.add(subCommentExtend);
+            }
+            commentExtend.setChildComments(subCommentExtends);
+            commentExtends.add(commentExtend);
+        }
+
+        Page<CommentExtend> commentExtendPage = new Page<>();
+        commentExtendPage.setRecords(commentExtends);
+        commentExtendPage.setTotal(commentPage.getTotal());
+        commentExtendPage.setCurrent(commentPage.getCurrent());
+        return commentExtendPage;
+    }
+
+    @Override
+    public Page<CommentExtend> query(CommentQueryParam param) {
+        Integer pageNum = param.getPageNum();
+        Integer pageSize = param.getPageSize();
+        Page<CommentExtend> commentExtendPage = new Page<>(pageNum, pageSize);
+        commentDao.query(commentExtendPage,param.getKeyword(),param.getUserId(),param.getArticleId()
+        ,param.getStartTime(),param.getEndTime());
+        return commentExtendPage;
     }
 }

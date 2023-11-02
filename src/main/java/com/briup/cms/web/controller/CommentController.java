@@ -1,14 +1,19 @@
 package com.briup.cms.web.controller;
 
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.briup.cms.bean.Comment;
 import com.briup.cms.bean.Subcomment;
 import com.briup.cms.bean.aop.Logging;
 import com.briup.cms.bean.dto.CommentDeleteParam;
+import com.briup.cms.bean.dto.CommentQueryParam;
+import com.briup.cms.bean.extend.CommentExtend;
 import com.briup.cms.bean.extend.SubCommentExtend;
 import com.briup.cms.service.CommentService;
 import com.briup.cms.util.Result;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -68,6 +73,31 @@ public class CommentController {
     public Result queryByCommentId(@PathVariable Long id) {
         List<SubCommentExtend> list = commentService.queryByCommentId(id);
         return Result.success(list);
+    }
+
+    @ApiOperation(value = "分页查询指定文章下的所有1级评论", notes = "1级 评论包含发表人及2条二级评论")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNum", value = "页码",
+                    dataType = "int", required = true, paramType = "query",
+                    defaultValue = "1"),
+            @ApiImplicitParam(name = "pageSize", value = "每页数量",
+                    dataType = "int", required = true, paramType = "query",
+                    defaultValue = "4"),
+            @ApiImplicitParam(name = "id", value = "文章id", dataType
+                    = "long", required = true, paramType = "path")
+    })
+    @GetMapping("/queryByArticleId/{id}")
+    public Result queryByArticleId(Integer pageNum, Integer pageSize, @PathVariable Long id) {
+        IPage<CommentExtend> page = commentService.queryByArticleId(pageNum, pageSize, id);
+        return Result.success(page);
+    }
+
+    @ApiOperation(value = "分页+条件查询", notes = "查询条件：关键字、userId、articleId、发表时间范围")
+    @Logging("分页查询评论信息")
+    @PostMapping("/query")
+    public Result query(@RequestBody CommentQueryParam param) {
+        IPage<CommentExtend> page = commentService.query(param);
+        return Result.success(page);
     }
 }
 

@@ -72,5 +72,10 @@ public class ArticleController {
         IPage<ArticleExtend> page = articleService.query(articleParam);
         return Result.success(page);
     }
+
+    @GetMapping("/getAll")
+    public Result getAll(){
+        return Result.success(articleService.getAll());
+    }
 }
 
