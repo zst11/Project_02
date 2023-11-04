@@ -70,7 +70,7 @@ public class ArticleServiceImpl implements ArticleService {
             if(category == null || category.getParentId() == null)
                 throw new ServiceException(ResultCode.CATEGORY_NOT_EXIST);
         }
-        // 4、判断是更新还是删除
+        // 4、判断是更新还是创建
         Long id = article.getId();
         if (id == null){
             // 新增
@@ -149,7 +149,7 @@ public class ArticleServiceImpl implements ArticleService {
         Integer isVip = userDao.selectById(userId1).getIsVip();
         // 如果当前用户不是文章的拥有者，同时文章收费，当前用户还不是Vip，查看失败
         // 注意：Long值比较使用 equals方法进行
-        if(!userId1.equals(article.getUserId()) && article.getCharged() == 1 && isVip == 0) {
+        if(!userId.equals(article.getUserId()) && article.getCharged() == 1 && isVip == 0) {
             throw new ServiceException(ResultCode.ARTICLE_IS_NOT_VISIBLE);
         }
         ArticleExtend articleExtend = new ArticleExtend();

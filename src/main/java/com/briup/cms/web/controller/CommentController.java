@@ -4,7 +4,7 @@ package com.briup.cms.web.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.briup.cms.bean.Comment;
 import com.briup.cms.bean.Subcomment;
-import com.briup.cms.bean.aop.Logging;
+import com.briup.cms.aop.Logging;
 import com.briup.cms.bean.dto.CommentDeleteParam;
 import com.briup.cms.bean.dto.CommentQueryParam;
 import com.briup.cms.bean.extend.CommentExtend;

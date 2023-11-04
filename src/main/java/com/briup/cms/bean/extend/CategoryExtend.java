@@ -8,5 +8,5 @@ import java.util.List;
 @Data
 public class CategoryExtend extends Category {
 
-    List<Category> categories;
+    List<Category> cates;
 }

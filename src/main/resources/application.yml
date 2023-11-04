@@ -5,7 +5,7 @@ spring:
   datasource:
     #mysql8
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/230308-cms?characterEncoding=utf8&useUnicode=true&useSSL=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://47.115.210.68:3306/230308-cms?characterEncoding=utf8&useUnicode=true&useSSL=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
     username: root
     password: 729157zst
   #新增内容：上传文件大小配置
@@ -63,10 +63,10 @@ upload:
   # 七牛云OSS相关配置
   oss:
     # 配置AK
-    accessKey: "4P7-_JgQ3y1v3NVosHsLWZYWNnnx4QOXVnMuXtsY"
+    accessKey: "DEChJUs9rB0hDGnFejWBZT6CQBoHr2ukIfUkuuoD"
     # 配置SK
-    secretKey: "XIdDRGtsm-0ZkBskGVww-EhAvrCgG9GPq_1656hD"
+    secretKey: "GR7BVhLQ6IU7cpRzjzmcEaLeN8DngDKcNkr0Nl5l"
     # 配置桶
-    bucket: "horry"
+    bucket: "zstggbond"
     # 配置基础域名
-    baseUrl: "http://s03gbclr1.hd-bkt.clouddn.com/"
+    baseUrl: "http://s36p7mf25.bkt.clouddn.com/"

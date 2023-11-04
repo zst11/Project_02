@@ -3,7 +3,7 @@ package com.briup.cms.web.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.briup.cms.bean.Article;
-import com.briup.cms.bean.aop.Logging;
+import com.briup.cms.aop.Logging;
 import com.briup.cms.bean.dto.ArticleParam;
 import com.briup.cms.bean.extend.ArticleExtend;
 import com.briup.cms.service.ArticleService;

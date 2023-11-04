@@ -18,7 +18,7 @@
     <resultMap id="CategoryWithChildsResult"
                type="com.briup.cms.bean.extend.CategoryExtend"
                extends="BaseCategoryResult">
-        <collection property="categories" column="id" select="queryByParentId"/>
+        <collection property="cates" column="id" select="queryByParentId"/>
     </resultMap>
     <select id="queryByParentId" resultMap="BaseCategoryResult">
         select *

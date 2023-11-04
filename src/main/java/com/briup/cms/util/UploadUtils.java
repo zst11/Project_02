@@ -66,11 +66,12 @@ public class UploadUtils {
         SimpleDateFormat format = new
                 SimpleDateFormat("yyyy/MM/dd/");
         String datePate = format.format(new Date());
+        String uuid = UUID.randomUUID().toString().replaceAll("-","");
         //获取文件名称
         String filename = file.getOriginalFilename();
 //给文件做唯一标识
         assert filename != null;
-        return datePate + UUID.randomUUID() +
+        return datePate + uuid +
                 filename.substring(filename.lastIndexOf("."));
     }
 }

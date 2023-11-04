@@ -67,7 +67,7 @@ public class UserController {
 
     @ApiOperation(value = "修改用户信息",notes = "id存在且有效,username唯一")
     @PutMapping("/update")
-    public Result update(User user){
+    public Result update(@RequestBody User user){
         userService.update(user);
         return Result.success("更新用户信息成功");
     }

@@ -1,4 +1,4 @@
-package com.briup.cms.bean.aop;
+package com.briup.cms.aop;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -15,4 +15,5 @@ public @interface Logging {
      */
     String value() default "";
 }
+
 
