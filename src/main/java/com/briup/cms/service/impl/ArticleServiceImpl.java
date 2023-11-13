@@ -16,6 +16,7 @@ import com.briup.cms.dao.UserDao;
 import com.briup.cms.exception.ServiceException;
 import com.briup.cms.service.ArticleService;
 import com.briup.cms.util.JwtUtil;
+import com.briup.cms.util.RedisUtil;
 import com.briup.cms.util.ResultCode;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,7 @@ public class ArticleServiceImpl implements ArticleService {
 //    @Autowired
 //    RedisUtil redisUtil;
 
-//    private final String REDIS_KEY = "Article_Read_Num";
+    private final String REDIS_KEY = "Article_Read_Num";
 
     private static String getToken(){
         // 返回token
@@ -125,6 +126,9 @@ public class ArticleServiceImpl implements ArticleService {
     @Autowired
     CommentDao commentDao;
 
+    @Autowired
+    RedisUtil redisUtil;
+
 
     @Override
     public ArticleExtend queryByIdWithComment(Long id) {
@@ -163,7 +167,7 @@ public class ArticleServiceImpl implements ArticleService {
 
 
         // 优化，加入redis
-//        articleExtend.setReadNum(redisUtil.increment(REDIS_KEY,article.getId().toString()));
+        articleExtend.setReadNum(redisUtil.increment(REDIS_KEY,article.getId().toString()));
         return articleExtend;
     }
 

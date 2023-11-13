@@ -20,7 +20,7 @@ import java.net.URLConnection;
  * @date 2023/8/18-9:57
  */
 @Slf4j
-public class IPUtils {
+public class  IPUtils {
 
     // IP地址查询
     public static final String IP_URL = "http://whois.pconline.com.cn/ipJson.jsp";
